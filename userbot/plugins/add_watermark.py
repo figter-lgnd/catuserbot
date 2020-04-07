@@ -50,10 +50,10 @@ async def _(event):
         # filename = sorted(get_lst_of_files('./ravana/watermark/' + reply_message.file.name, []))
         #filename = filename + "/"
         await event.edit("Uploading now")
-        caption_rts = os.path.basename(./bin/watermark.pdf + reply_message.file.name)
+        caption_rts = os.path.basename(watermark_path + reply_message.file.name)
         await borg.send_file(
             event.chat_id,
-            ./bin/watermark.pdf + reply_message.file.name,
+            watermark_path + reply_message.file.name,
             reply_to=event.message.id,
             progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
                 progress(d, t, event, c_time, "trying to upload")
