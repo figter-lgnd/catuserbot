@@ -95,7 +95,6 @@ async def _(event):
             downloaded_file_name = await borg.download_media(
                 reply_message,
                 Config.TMP_DOWNLOAD_DIRECTORY,
-                )
             )
             directory_name = downloaded_file_name
             await event.edit("creating 7z archive, please wait..")
