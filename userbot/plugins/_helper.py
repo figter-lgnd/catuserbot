@@ -1,4 +1,9 @@
 from userbot import CMD_LIST
+from userbot import ALIVE_NAME
+from userbot.utils import admin_cmd
+from platform import uname
+
+DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "@mrconfused"
 
 @command(pattern="^.help ?(.*)")
 async def cmd_list(event):
@@ -28,7 +33,7 @@ async def cmd_list(event):
             else:
                 await event.edit(input_str + " is not a valid plugin!")
         else:
-            help_string = """Userbot Helper.. Provided by @mrconfused \n\n
+            help_string = f"""Userbot Helper.. Provided by {DEFAULTUSER} \n\n
 `Userbot Helper to reveal all the commands`\n__Do .help plugin_name for commands, in case popup doesn't appear.__"""
             results = await bot.inline_query(  # pylint:disable=E0602
                 tgbotusername,
