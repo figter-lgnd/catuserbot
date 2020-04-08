@@ -72,7 +72,7 @@ async def _(event):
                     thumb =  await take_screen_shot(
                         downloaded_file_name,
                         os.path.dirname(os.path.abspath(downloaded_file_name)),
-                        (duration / 2)
+                        
                     )
                 start = datetime.now()
                 metadata = extractMetadata(createParser(downloaded_file_name))
