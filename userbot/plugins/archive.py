@@ -8,7 +8,11 @@ Coded by @furki
 """
 
 from datetime import datetime
-
+import zipfile
+from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeVideo
+from hachoir.metadata import extractMetadata
+from hachoir.parser import createParser
+from zipfile import ZipFile
 import asyncio
 import os
 import shutil
@@ -44,9 +48,6 @@ async def _(event):
             downloaded_file_name = await borg.download_media(
                 reply_message,
                 Config.TMP_DOWNLOAD_DIRECTORY,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
-                )
             )
             directory_name = downloaded_file_name
             await event.edit("creating rar archive, please wait..")
@@ -94,8 +95,6 @@ async def _(event):
             downloaded_file_name = await borg.download_media(
                 reply_message,
                 Config.TMP_DOWNLOAD_DIRECTORY,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
                 )
             )
             directory_name = downloaded_file_name
