@@ -7,10 +7,14 @@ from telethon.tl import functions
 from telethon.errors import FloodWaitError
 from userbot.utils import admin_cmd
 from userbot import AUTONAME
+rom platform import uname
+from userbot import ALIVE_NAME
+from userbot.utils import admin_cmd
 
+DEFAULTUSER2 = str(ALIVE_NAME) if ALIVE_NAME else "cat"
 
 DEL_TIME_OUT = 60
-DEFAULTUSER = str(AUTONAME) if AUTONAME else "π.$"
+DEFAULTUSER1 = str(AUTONAME) if AUTONAME else f"{DEFAULTUSER2}"
 
 
 @borg.on(admin_cmd(pattern="autoname"))  # pylint:disable=E0602
