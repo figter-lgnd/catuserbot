@@ -8,6 +8,7 @@ from userbot.utils import admin_cmd
 
 @borg.on(events.NewMessage(pattern=r"\.lol", outgoing=True))
 async def _(event):
+	sleepValue = 5
 	if event.fwd_from:
 		return
 	deq = deque(list("🤔🧐🤔🧐🤔🧐"))
@@ -15,4 +16,4 @@ async def _(event):
 		await asyncio.sleep(0.1)
 		await event.edit("".join(deq))
 		deq.rotate(1)
-    
+    		await asyncio.sleep(sleepValue)
