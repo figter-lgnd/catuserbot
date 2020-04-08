@@ -123,7 +123,7 @@ class Config(object):
     OPEN_LOAD_KEY = os.environ.get("OPEN_LOAD_KEY", "0")
     # Google Chrome Selenium Stuff
     # taken from https://github.com/jaskaranSM/UniBorg/blob/9072e3580cc6c98d46f30e41edbe73ffc9d850d3/sample_config.py#L104-L106
-    TEMP_DIR = os.environ.get("TEMP_DIR", "./DOWNLOADS/")
+    TEMP_DIR = os.environ.get("TEMP_DIR", "./DOWNLOADS")
     # spotify stuff
     DEFAULT_BIO = os.environ.get("DEFAULT_BIO",None)
     SPOTIFY_BIO_PREFIX = os.environ.get("SPOTIFY_BIO_PREFIX",None)
