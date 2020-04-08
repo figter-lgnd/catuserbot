@@ -75,9 +75,9 @@ async def ff_mpeg_trim_cmd(event):
                 supports_streaming=True,
                 allow_cache=False,
                 # reply_to=event.message.id,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, event, c_time, "trying to upload")
-                )
+               # progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                #    progress(d, t, event, c_time, "trying to upload")
+                #)
             )
             os.remove(o)
         except Exception as e:
@@ -101,9 +101,9 @@ async def ff_mpeg_trim_cmd(event):
                 # supports_streaming=True,
                 allow_cache=False,
                 # reply_to=event.message.id,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, event, c_time, "trying to upload")
-                )
+              #  progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+               #     progress(d, t, event, c_time, "trying to upload")
+                #)
             )
             os.remove(o)
         except Exception as e:
