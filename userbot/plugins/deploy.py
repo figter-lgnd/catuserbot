@@ -8,13 +8,12 @@ import asyncio
 
 from userbot.utils import admin_cmd
 
-from userbot import ALIVE_NAME,TG_BOT_USER_NAME_BF_HER
+from userbot import ALIVE_NAME
 
 
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "@mrconfused"
 
 
-DEFAULTBOT = str(TG_BOT_USER_NAME_BF_HER) if TG_BOT_USER_NAME_BF_HER else "@mrconfusedbot"
 @borg.on(admin_cmd(pattern=r"deploy"))
 
 async def _(event):
@@ -35,7 +34,7 @@ async def _(event):
 
     animation_chars = [
         
-            f"**Heroku Connecting To Latest Github Build {DEFAULTBOT}**",
+            "**Heroku Connecting To Latest Github Build **",
             f"**Build started by user** ** {DEFAULTUSER} **",
             f"**Deploy** `535a74f0` **by user** ** {DEFAULTUSER} **",
             "**Restarting Heroku Server...**",
