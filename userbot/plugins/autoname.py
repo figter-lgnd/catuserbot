@@ -7,7 +7,7 @@ from telethon.tl import functions
 from telethon.errors import FloodWaitError
 from userbot.utils import admin_cmd
 from userbot import AUTONAME
-rom platform import uname
+from platform import uname
 from userbot import ALIVE_NAME
 from userbot.utils import admin_cmd
 
