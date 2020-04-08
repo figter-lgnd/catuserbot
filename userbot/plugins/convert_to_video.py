@@ -43,9 +43,6 @@ async def _(event):
             downloaded_file_name = await borg.download_media(
                 reply_message,
                 Config.TMP_DOWNLOAD_DIRECTORY,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
-                )
             )
         except Exception as e:  # pylint:disable=C0103,W0703
             await mone.edit(str(e))
@@ -109,9 +106,6 @@ async def _(event):
                                 supports_streaming=True
                             )
                         ],
-                        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                            progress(d, t, mone, c_time, "trying to upload")
-                        )
                     )
                 except Exception as e:
                     await mone.edit(str(e))
