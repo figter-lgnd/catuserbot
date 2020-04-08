@@ -68,7 +68,7 @@ def yaml_format(obj, indent=0):
                 result.append('<…>')
             else:
                 result.append(' '.join(f'{b:02X}' for b in obj))
-    elif isinstance(obj, datetime.datetime):
+    elif isinstance(obj, time.time):
         # ISO-8601 without timezone offset (telethon dates are always UTC)
         result.append(obj.strftime('%Y-%m-%d %H:%M:%S'))
     elif hasattr(obj, '__iter__'):
