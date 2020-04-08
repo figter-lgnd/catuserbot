@@ -4,6 +4,7 @@
 import asyncio
 import os
 import time
+import datetime
 from datetime import datetime
 from userbot.utils import admin_cmd, progress
 
@@ -24,7 +25,9 @@ async def _(event):
         downloaded_file_name = await borg.download_media(
             reply_message,
             Config.TMP_DOWNLOAD_DIRECTORY,
-            
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress(d, t, event, c_time, "trying to download")
+            )
         )
     except Exception as e:  # pylint:disable=C0103,W0703
         await event.edit(str(e))
@@ -97,7 +100,9 @@ async def _(event):
                 force_document=force_document,
                 voice_note=voice_note,
                 supports_streaming=supports_streaming,
-               
+                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                    progress(d, t, event, c_time, "trying to upload")
+                )
             )
             ms_two = (end_two - end).seconds
             os.remove(new_required_file_name)
