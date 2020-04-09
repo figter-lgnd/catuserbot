@@ -25,10 +25,7 @@ async def _(event):
             c_time = time.time()
             downloaded_file_name = await borg.download_media(
                 reply_message,
-                Config.TMP_DOWNLOAD_DIRECTORY,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
-                )
+                Config.TMP_DOWNLOAD_DIRECTORY
             )
             directory_name = downloaded_file_name
             await event.edit(downloaded_file_name)
@@ -38,7 +35,7 @@ async def _(event):
     await borg.send_file(
         event.chat_id,
         directory_name + ".zip",
-        caption="Zipped By EyePatch",
+        caption="Zipped By cat",
         force_document=True,
         allow_cache=False,
         reply_to=event.message.id,
