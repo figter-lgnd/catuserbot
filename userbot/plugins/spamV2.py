@@ -4,7 +4,7 @@ from asyncio import wait
 from userbot.utils import admin_cmd
 from telethon import events, utils
 
-from userbot.utils import register
+from userbot.events import register
 
 @register(outgoing=True, pattern="^.sspam")
 async def spammer(e):
