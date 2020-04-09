@@ -40,7 +40,7 @@ from asyncio import sleep
 from userbot import CMD_HELP, BOTLOG, BOTLOG_CHATID, YOUTUBE_API_KEY, CHROME_DRIVER, GOOGLE_CHROME_BIN
 from userbot.events import register
 from telethon.tl.types import DocumentAttributeAudio
-from userbot.plugins.upload_download import progress, humanbytes, time_formatter
+from userbot.uniborgutil import progress, humanbytes, time_formatter
 from userbot.uniborgConfig import Config
 CARBONLANG = "auto"
 TTS_LANG = "en"
