@@ -39,7 +39,7 @@ async def _(event):
               response = await response
 
           except YouBlockedUserError: 
-              await event.reply("```Please unblock [me](https://t.me/es3n1n_bot u Nigga```")
+              await event.reply("```Please unblock [me](https://t.me/es3n1n_bot) u Nigga```")
               return
 
           if response.text.startswith("Hi!"):
