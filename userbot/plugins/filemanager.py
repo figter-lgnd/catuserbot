@@ -1,4 +1,4 @@
-""Execute GNU/Linux commands inside Telegram
+"""Execute GNU/Linux commands inside Telegram
 Syntax: .lsroot , .lslocal"""
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
