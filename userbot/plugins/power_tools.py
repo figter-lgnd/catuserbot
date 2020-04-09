@@ -13,7 +13,7 @@ import os
 import sys
 
 
-@borg.on(events.NewMessage(pattern=r"\.fastboot", outgoing=True))
+@borg.on(admin_cmd(pattern=("fastboot ?(.*)")))
 async def _(event):
     if event.fwd_from:
         return
@@ -27,7 +27,7 @@ async def _(event):
     # You probably don't need it but whatever
     quit()
 
-@borg.on(events.NewMessage(pattern=r"\.reboot", outgoing=True))
+@borg.on(admin_cmd(pattern=("reboot ?(.*)")))
 async def _(event):
     if event.fwd_from:
         return
@@ -45,7 +45,7 @@ async def _(event):
     # You probably don't need it but whatever
     quit()
 
-@borg.on(events.NewMessage(pattern=r"\.restart", outgoing=True))
+@borg.on(admin_cmd(pattern=("restart ?(.*)")))
 async def _(event):
     if event.fwd_from:
         return
@@ -67,7 +67,7 @@ async def _(event):
     # You probably don't need it but whatever
     quit()
 
-@borg.on(events.NewMessage(pattern=r"\.asciiboot", outgoing=True))
+@borg.on(admin_cmd(pattern=("asciiboot ?(.*)")))
 async def _(event):
     if event.fwd_from:
         return
@@ -83,7 +83,7 @@ async def _(event):
     # You probably don't need it but whatever
     quit()
 
-@borg.on(events.NewMessage(pattern=r"\.shutdown", outgoing=True))
+@borg.on(admin_cmd(pattern=("shutdown ?(.*)")))
 async def _(event):
     if event.fwd_from:
         return
