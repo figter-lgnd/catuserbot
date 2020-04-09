@@ -130,7 +130,7 @@ async def magnet_download(event):
     await check_progress_for_dl(gid, event)
 
 
-@borg.on(admin_cmd(pattern="ariaRM"))
+@borg.on(admin_cmd(pattern="ariarm"))
 async def remove_all(event):
     if event.fwd_from:
         return
@@ -144,7 +144,7 @@ async def remove_all(event):
     await event.edit("`Removed All Downloads.`")
 
 
-@borg.on(admin_cmd(pattern="ariaP"))
+@borg.on(admin_cmd(pattern="ariap"))
 async def pause_all(event):
     if event.fwd_from:
         return
