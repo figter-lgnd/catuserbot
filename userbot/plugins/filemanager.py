@@ -24,7 +24,7 @@ async def _(event):
     PROCESS_RUN_TIME = 100
 #    dirname = event.pattern_match.group(1)
 #    tempdir = "localdir"
-    cmd = "ls -lh ./cat/"
+    cmd = "ls -lh ./DOWNLOADS/"
 #    if dirname == tempdir:
 	
     eply_to_id = event.message.id
@@ -215,7 +215,7 @@ async def handler(event):
      await event.edit("✅ File Deleted 🗑")
 	 
     else:
-         await event.edit("⛔️File Not Found സാധനം കയ്യിലില്ല😬")
+         await event.edit("⛔️File Not Found. The goods are out of hand😬")
         
 @borg.on(events.NewMessage(pattern=r"\.delocal (.*)", outgoing=True))
 async def handler(event):
@@ -230,4 +230,4 @@ async def handler(event):
      await event.edit("✅ File Deleted 🗑")
 	 
     else:
-         await event.edit("⛔️File Not Found സാധനം കയ്യിലില്ല😬")
+         await event.edit("⛔️File Not Found .The goods are out of hand😬")
