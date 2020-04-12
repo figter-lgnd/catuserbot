@@ -81,11 +81,13 @@ def time_formatter(milliseconds: int) -> str:
         ((str(seconds) + " second(s), ") if seconds else "") + \
         ((str(milliseconds) + " millisecond(s), ") if milliseconds else "")
     return tmp[:-2]
-
+"""
 
 @register(pattern=r".download(?: |$)(.*)", outgoing=True)
 async def download(target_file):
-    """ For .download command, download files to the userbot's server. """
+    """ 
+#For .download command, download files to the userbot's server.
+"""
     await target_file.edit("Processing ...")
     input_str = target_file.pattern_match.group(1)
     if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
@@ -160,7 +162,9 @@ async def download(target_file):
 
 @register(pattern=r".uploadir (.*)", outgoing=True)
 async def uploadir(udir_event):
-    """ For .uploadir command, allows you to upload everything from a folder in the server"""
+    """ 
+#For .uploadir command, allows you to upload everything from a folder in the server
+"""
     input_str = udir_event.pattern_match.group(1)
     if os.path.exists(input_str):
         await udir_event.edit("Processing ...")
@@ -236,7 +240,8 @@ async def uploadir(udir_event):
 
 @register(pattern=r".upload (.*)", outgoing=True)
 async def upload(u_event):
-    """ For .upload command, allows you to upload a file from the userbot's server """
+    """ #For .upload command, allows you to upload a file from the userbot's server
+"""
     await u_event.edit("Processing ...")
     input_str = u_event.pattern_match.group(1)
     if input_str in ("userbot.session", "config.env"):
@@ -256,7 +261,7 @@ async def upload(u_event):
         await u_event.edit("Uploaded successfully !!")
     else:
         await u_event.edit("404: File Not Found")
-
+"""
 
 def get_video_thumb(file, output=None, width=90):
     """ Get video thumbnail """
@@ -308,11 +313,13 @@ def extract_w_h(file):
         width = int(response_json["streams"][0]["width"])
         height = int(response_json["streams"][0]["height"])
         return width, height
-
+"""
 
 @register(pattern=r".uploadas(stream|vn|all) (.*)", outgoing=True)
 async def uploadas(uas_event):
-    """ For .uploadas command, allows you to specify some arguments for upload. """
+    """
+#For .uploadas command, allows you to specify some arguments for upload.
+"""
     await uas_event.edit("Processing ...")
     type_of_upload = uas_event.pattern_match.group(1)
     supports_streaming = False
@@ -402,7 +409,7 @@ async def uploadas(uas_event):
     else:
         await uas_event.edit("404: File Not Found")
 
-
+"""
 CMD_HELP.update({
     "download":
     ".download <link|filename> or reply to media\
