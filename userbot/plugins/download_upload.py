@@ -82,8 +82,8 @@ def time_formatter(milliseconds: int) -> str:
         ((str(milliseconds) + " millisecond(s), ") if milliseconds else "")
     return tmp[:-2]
 
-@borg.on(admin_cmd(pattern="download(?: |$)(.*)", allow_sudo=True))
-#@register(pattern=r".download(?: |$)(.*)", outgoing=True)
+#@borg.on(admin_cmd(pattern="download(?: |$)(.*)", allow_sudo=True))
+@register(pattern=r".download(?: |$)(.*)", outgoing=True)
 async def download(target_file):
     """ 
 #For .download command, download files to the userbot's server.
@@ -160,8 +160,8 @@ async def download(target_file):
             "Reply to a message to download to my local server.")
 
 
-#@register(pattern=r".uploadir (.*)", outgoing=True)
-@borg.on(admin_cmd(pattern="uploadir (.*)", allow_sudo=True))
+@register(pattern=r".uploadir (.*)", outgoing=True)
+#@borg.on(admin_cmd(pattern="uploadir (.*)", allow_sudo=True))
 async def uploadir(udir_event):
     """ 
 #For .uploadir command, allows you to upload everything from a folder in the server
@@ -238,8 +238,8 @@ async def uploadir(udir_event):
     else:
         await udir_event.edit("404: Directory Not Found")
 
-@borg.on(admin_cmd(pattern="upload (.*)", allow_sudo=True))
-#@register(pattern=r".upload (.*)", outgoing=True)
+#@borg.on(admin_cmd(pattern="upload (.*)", allow_sudo=True))
+@register(pattern=r".upload (.*)", outgoing=True)
 async def upload(u_event):
     """ #For .upload command, allows you to upload a file from the userbot's server
 """
@@ -315,8 +315,8 @@ def extract_w_h(file):
         height = int(response_json["streams"][0]["height"])
         return width, height
 
-@borg.on(admin_cmd(pattern="uploadas(stream|vn|all) (.*)", allow_sudo=True))
-#@register(pattern=r".uploadas(stream|vn|all) (.*)", outgoing=True)
+#@borg.on(admin_cmd(pattern="uploadas(stream|vn|all) (.*)", allow_sudo=True))
+@register(pattern=r".uploadas(stream|vn|all) (.*)", outgoing=True)
 async def uploadas(uas_event):
     """
 #For .uploadas command, allows you to specify some arguments for upload.
