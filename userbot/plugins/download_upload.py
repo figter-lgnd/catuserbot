@@ -14,7 +14,7 @@ import os
 import subprocess
 import time
 import math
-
+from telethon import events
 from pySmartDL import SmartDL
 import asyncio
 from hachoir.metadata import extractMetadata
