@@ -1,18 +1,16 @@
 # Copyright (C) 2019 The Raphielscape Company LLC.
-
 #
-
 # Licensed under the Raphielscape Public License, Version 1.b (the "License");
-
 # you may not use this file except in compliance with the License.
-
 #
-
+# Fixed and made better by @anubisxx
+# thanks for @anubisxx
 """ Userbot module containing various scrapers. """
 import os
 import shutil
 from bs4 import BeautifulSoup
 import re
+import random
 from time import sleep
 from html import unescape
 from re import findall
@@ -20,6 +18,7 @@ from datetime import datetime
 from selenium import webdriver
 from urllib.parse import quote_plus
 from urllib.error import HTTPError
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
 from wikipedia import summary
@@ -34,12 +33,21 @@ from gtts import gTTS
 from emoji import get_emoji_regexp
 from userbot import CMD_HELP, BOTLOG, BOTLOG_CHATID, YOUTUBE_API_KEY, CHROME_DRIVER, GOOGLE_CHROME_BIN
 from userbot.utils import register
+
+
 CARBONLANG = "auto"
 LANG = "en"
 
-@register(outgoing=True, pattern="^.carbon$")
+from platform import uname
+from userbot import ALIVE_NAME
+from userbot.utils import admin_cmd
+
+DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "cat"
+
+@register(outgoing=True, pattern="^.carbon")
 async def carbon_api(e):
  if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+ 
    """ A Wrapper for carbon.now.sh """
    await e.edit("`Processing..`")
    CARBON = 'https://carbon.now.sh/?l={lang}&code={code}'
@@ -47,7 +55,12 @@ async def carbon_api(e):
    textx = await e.get_reply_message()
    pcode = e.text
    if pcode[8:]:
-         pcode = str(pcode[8:])
+         pcodee = str(pcode[8:])
+         if "|" in pcodee:
+               pcode, skeme = pcodee.split("|")
+         else:
+               pcode = pcodee
+               skeme = None
    elif textx:
          pcode = str(textx.message) # Importing message to module
    code = quote_plus(pcode) # Converting to urlencoded
@@ -69,19 +82,29 @@ async def carbon_api(e):
    driver.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
    params = {'cmd': 'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': download_path}}
    command_result = driver.execute("send_command", params)
-   driver.find_element_by_xpath("//button[contains(text(),'Export')]").click()
+   driver.find_element_by_xpath('//*[@id="__next"]/main/div[3]/div[2]/div[1]/div[1]/div/span[2]').click()
+   if skeme != None:
+         k_skeme = driver.find_element_by_xpath('/html/body/div[1]/main/div[3]/div[2]/div[1]/div[1]/div/span[2]/input')
+         k_skeme.send_keys(skeme)
+         k_skeme.send_keys(Keys.DOWN)
+         k_skeme.send_keys(Keys.ENTER)
+   else:
+       color_scheme = str(random.randint(1,29))
+       driver.find_element_by_id(("downshift-0-item-" + color_scheme)).click()
+   driver.find_element_by_id("export-menu").click()
    driver.find_element_by_xpath("//button[contains(text(),'4x')]").click()
    driver.find_element_by_xpath("//button[contains(text(),'PNG')]").click()
    await e.edit("`Processing..\n75%`")
    # Waiting for downloading
    sleep(2.5)
+   color_name = driver.find_element_by_xpath('/html/body/div[1]/main/div[3]/div[2]/div[1]/div[1]/div/span[2]/input').get_attribute('value')
    await e.edit("`Done Dana Done...\n100%`")
    file = './carbon.png'
    await e.edit("`Uploading..`")
    await e.client.send_file(
          e.chat_id,
          file,
-         caption=f"Here's your carbon,do festival with this ! \n Carbonised by cat",
+         caption=f"<< `Here's your carbon!` \n **Carbonised by** {DEFAULTUSER}.>>\n__The colour scheme or this carbon style is__ `{}`".format(color_name),
          force_document=True,
          reply_to=e.message.reply_to_msg_id,
          )
@@ -89,4 +112,3 @@ async def carbon_api(e):
    driver.quit()
    # Removing carbon.png after uploading
    await e.delete() # Deleting msg
-   
