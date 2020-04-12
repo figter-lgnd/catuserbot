@@ -18,7 +18,6 @@ class Config(object):
     # websites, this might prevent the un-authorized use of the
     # confidential session files
     HU_STRING_SESSION = os.environ.get("HU_STRING_SESSION", None)
-    CHROMEDRIVER_VERSION  = os.environ.get("HU_STRING_SESSION", "80.0.3987.106")
     # Get your own APPID from https://api.openweathermap.org/data/2.5/weather
     OPEN_WEATHER_MAP_APPID = os.environ.get("OPEN_WEATHER_MAP_APPID", None)
     # Send .get_id in any group to fill this value.
