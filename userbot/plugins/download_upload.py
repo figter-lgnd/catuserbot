@@ -81,9 +81,9 @@ def time_formatter(milliseconds: int) -> str:
         ((str(seconds) + " second(s), ") if seconds else "") + \
         ((str(milliseconds) + " millisecond(s), ") if milliseconds else "")
     return tmp[:-2]
-"""
 
-@register(pattern=r".download(?: |$)(.*)", outgoing=True)
+@borg.on(admin_cmd(pattern="download(?: |$)(.*)", allow_sudo=True))
+#@register(pattern=r".download(?: |$)(.*)", outgoing=True)
 async def download(target_file):
     """ 
 #For .download command, download files to the userbot's server.
@@ -160,7 +160,8 @@ async def download(target_file):
             "Reply to a message to download to my local server.")
 
 
-@register(pattern=r".uploadir (.*)", outgoing=True)
+#@register(pattern=r".uploadir (.*)", outgoing=True)
+@borg.on(admin_cmd(pattern="uploadir (.*)", allow_sudo=True))
 async def uploadir(udir_event):
     """ 
 #For .uploadir command, allows you to upload everything from a folder in the server
@@ -237,8 +238,8 @@ async def uploadir(udir_event):
     else:
         await udir_event.edit("404: Directory Not Found")
 
-
-@register(pattern=r".upload (.*)", outgoing=True)
+@borg.on(admin_cmd(pattern="upload (.*)", allow_sudo=True))
+#@register(pattern=r".upload (.*)", outgoing=True)
 async def upload(u_event):
     """ #For .upload command, allows you to upload a file from the userbot's server
 """
@@ -261,7 +262,7 @@ async def upload(u_event):
         await u_event.edit("Uploaded successfully !!")
     else:
         await u_event.edit("404: File Not Found")
-"""
+
 
 def get_video_thumb(file, output=None, width=90):
     """ Get video thumbnail """
@@ -313,9 +314,9 @@ def extract_w_h(file):
         width = int(response_json["streams"][0]["width"])
         height = int(response_json["streams"][0]["height"])
         return width, height
-"""
 
-@register(pattern=r".uploadas(stream|vn|all) (.*)", outgoing=True)
+@borg.on(admin_cmd(pattern="uploadas(stream|vn|all) (.*)", allow_sudo=True))
+#@register(pattern=r".uploadas(stream|vn|all) (.*)", outgoing=True)
 async def uploadas(uas_event):
     """
 #For .uploadas command, allows you to specify some arguments for upload.
@@ -409,7 +410,6 @@ async def uploadas(uas_event):
     else:
         await uas_event.edit("404: File Not Found")
 
-"""
 CMD_HELP.update({
     "download":
     ".download <link|filename> or reply to media\
