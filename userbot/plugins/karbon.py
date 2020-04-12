@@ -11,6 +11,7 @@ Thanks to @r4v4n4 for vars"""
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from telethon import events
 from urllib.parse import quote_plus
 from urllib.error import HTTPError
