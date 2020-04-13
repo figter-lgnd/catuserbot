@@ -20,10 +20,12 @@ import asyncio
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
-
 from userbot import LOGS, CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
-from userbot.utils import register, admin_cmd
-
+from userbot.utils import register
+from datetime import datetime
+from userbot.uniborgConfig import Config
+thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
+from userbot.utils import progress, admin_cmd
 
 async def progress(current, total, event, start, type_of_ps, file_name=None):
     """Generic progress_callback for uploads and downloads."""
@@ -82,84 +84,76 @@ def time_formatter(milliseconds: int) -> str:
         ((str(milliseconds) + " millisecond(s), ") if milliseconds else "")
     return tmp[:-2]
 
-#@borg.on(admin_cmd(pattern="download(?: |$)(.*)", allow_sudo=True))
 @register(pattern=r".download(?: |$)(.*)", outgoing=True)
-async def download(target_file):
-    """ 
-#For .download command, download files to the userbot's server.
-"""
-    await target_file.edit("Processing ...")
-    input_str = target_file.pattern_match.group(1)
-    if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
-        os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
-    if "|" in input_str:
-        url, file_name = input_str.split("|")
+async def _(event):
+    if event.fwd_from:
+        return
+    mone = await event.reply("Processing ...")
+    input_str = event.pattern_match.group(1)
+    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
+        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
+    if event.reply_to_msg_id:
+        start = datetime.now()
+        reply_message = await event.get_reply_message()
+        try:
+            c_time = time.time()
+            downloaded_file_name = await event.client.download_media(
+                reply_message,
+                Config.TMP_DOWNLOAD_DIRECTORY,
+                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                    progress(d, t, mone, c_time, "trying to download")
+                )
+            )
+        except Exception as e:  # pylint:disable=C0103,W0703
+            await mone.edit(str(e))
+        else:
+            end = datetime.now()
+            ms = (end - start).seconds
+            await mone.edit("Downloaded to `{}` in {} seconds.".format(downloaded_file_name, ms))
+    elif input_str:
+        start = datetime.now()
+        url = input_str
+        file_name = os.path.basename(url)
+        to_download_directory = Config.TMP_DOWNLOAD_DIRECTORY
+        if "|" in input_str:
+            url, file_name = input_str.split("|")
         url = url.strip()
-        # https://stackoverflow.com/a/761825/4723940
         file_name = file_name.strip()
-        head, tail = os.path.split(file_name)
-        if head:
-            if not os.path.isdir(os.path.join(TEMP_DOWNLOAD_DIRECTORY, head)):
-                os.makedirs(os.path.join(TEMP_DOWNLOAD_DIRECTORY, head))
-                file_name = os.path.join(head, tail)
-        downloaded_file_name = TEMP_DOWNLOAD_DIRECTORY + "" + file_name
+        downloaded_file_name = os.path.join(to_download_directory, file_name)
         downloader = SmartDL(url, downloaded_file_name, progress_bar=False)
         downloader.start(blocking=False)
         c_time = time.time()
-        display_message = None
         while not downloader.isFinished():
-            status = downloader.get_status().capitalize()
             total_length = downloader.filesize if downloader.filesize else None
             downloaded = downloader.get_dl_size()
+            display_message = ""
             now = time.time()
             diff = now - c_time
             percentage = downloader.get_progress() * 100
             speed = downloader.get_speed()
             elapsed_time = round(diff) * 1000
-            progress_str = "[{0}{1}] {2}%".format(
-                ''.join(["▰" for i in range(math.floor(percentage / 10))]),
-                ''.join(["▱"
-                         for i in range(10 - math.floor(percentage / 10))]),
+            progress_str = "{0}{1}\nProgress: {2}%".format(
+                ''.join(["█" for i in range(math.floor(percentage / 5))]),
+                ''.join(["░" for i in range(20 - math.floor(percentage / 5))]),
                 round(percentage, 2))
             estimated_total_time = downloader.get_eta(human=True)
             try:
-                current_message = f"{status}..\
-                \nURL: {url}\
-                \nFile Name: {file_name}\
-                \n{progress_str}\
-                \n{humanbytes(downloaded)} of {humanbytes(total_length)}\
-                \nETA: {estimated_total_time}"
-
-                if round(diff %
-                         10.00) == 0 and current_message != display_message:
-                    await target_file.edit(current_message)
+                current_message = f"trying to download\nURL: {url}\nFile Name: {file_name}\n{progress_str}\n{humanbytes(downloaded)} of {humanbytes(total_length)}\nETA: {estimated_total_time}"
+                if round(diff % 10.00) == 0 and current_message != display_message:
+                    await mone.edit(current_message)
                     display_message = current_message
             except Exception as e:
-                LOGS.info(str(e))
+                logger.info(str(e))
+        end = datetime.now()
+        ms = (end - start).seconds
         if downloader.isSuccessful():
-            await target_file.edit("Downloaded to `{}` successfully !!".format(
-                downloaded_file_name))
+            await mone.edit("Downloaded to `{}` in {} seconds.".format(downloaded_file_name, ms))
         else:
-            await target_file.edit("Incorrect URL\n{}".format(url))
-    elif target_file.reply_to_msg_id:
-        try:
-            c_time = time.time()
-            downloaded_file_name = await target_file.client.download_media(
-                await target_file.get_reply_message(),
-                TEMP_DOWNLOAD_DIRECTORY,
-                progress_callback=lambda d, t: asyncio.get_event_loop(
-                ).create_task(
-                    progress(d, t, target_file, c_time, "Downloading...")))
-        except Exception as e:  # pylint:disable=C0103,W0703
-            await target_file.edit(str(e))
-        else:
-            await target_file.edit("Downloaded to `{}` successfully !!".format(
-                downloaded_file_name))
+            await mone.edit("Incorrect URL\n {}".format(input_str))
     else:
-        await target_file.edit(
-            "Reply to a message to download to my local server.")
-
-
+        await mone.edit("Reply to a message to download to my local server.")
+        
+        
 @register(pattern=r".uploadir (.*)", outgoing=True)
 #@borg.on(admin_cmd(pattern="uploadir (.*)", allow_sudo=True))
 async def uploadir(udir_event):
@@ -238,31 +232,37 @@ async def uploadir(udir_event):
     else:
         await udir_event.edit("404: Directory Not Found")
 
-#@borg.on(admin_cmd(pattern="upload (.*)", allow_sudo=True))
+#@borg.on(admin_cmd(pattern="upload (.*)", allow_sudo=True)
 @register(pattern=r".upload (.*)", outgoing=True)
-async def upload(u_event):
-    """ #For .upload command, allows you to upload a file from the userbot's server
-"""
-    await u_event.edit("Processing ...")
-    input_str = u_event.pattern_match.group(1)
-    if input_str in ("userbot.session", "config.env"):
-        await u_event.edit("`That's a dangerous operation! Not Permitted!`")
+async def _(event):
+    if event.fwd_from:
         return
+    mone = await event.reply("Processing ...")
+    input_str = event.pattern_match.group(1)
+    thumb = None
+    if os.path.exists(thumb_image_path):
+        thumb = thumb_image_path
     if os.path.exists(input_str):
+        start = datetime.now()
         c_time = time.time()
-        await u_event.client.send_file(
-            u_event.chat_id,
+        await event.client.send_file(
+            event.chat_id,
             input_str,
             force_document=True,
+            supports_streaming=False,
             allow_cache=False,
-            reply_to=u_event.message.id,
-            progress_callback=lambda d, t: asyncio.get_event_loop(
-            ).create_task(
-                progress(d, t, u_event, c_time, "Uploading...", input_str)))
-        await u_event.edit("Uploaded successfully !!")
+            reply_to=event.message.id,
+            thumb=thumb,
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress(d, t, mone, c_time, "trying to upload")
+            )
+        )
+        end = datetime.now()
+        # os.remove(input_str)
+        ms = (end - start).seconds
+        await mone.edit("Uploaded in {} seconds.".format(ms))
     else:
-        await u_event.edit("404: File Not Found")
-
+        await mone.edit("404: File Not Found")
 
 def get_video_thumb(file, output=None, width=90):
     """ Get video thumbnail """
