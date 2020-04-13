@@ -8,6 +8,11 @@ from userbot import CMD_LIST
 import re
 import logging
 import inspect
+import math
+import os
+import time
+
+from telethon.tl.functions.messages import GetPeerDialogsRequest
 
 from typing import List
 
