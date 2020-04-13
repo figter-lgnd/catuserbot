@@ -8,24 +8,26 @@
 # License: MPL and OSSRPL
 """ Userbot module which contains everything related to \
     downloading/uploading from/to the server. """
-
-import json
-import os
-import subprocess
-import time
-import math
-from telethon import events
-from pySmartDL import SmartDL
+import aiohttp
 import asyncio
+import os
+import time
+from datetime import datetime
+from telethon import events
+from telethon.tl.types import DocumentAttributeVideo
+import json
+import subprocess
+import math
+from pySmartDL import SmartDL
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
-from telethon.tl.types import DocumentAttributeVideo
 from userbot import LOGS, CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
 from userbot.utils import register
-from datetime import datetime
+from userbot.utils import admin_cmd, humanbytes, progress, time_formatter
 from userbot.uniborgConfig import Config
 thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
-from userbot.utils import progress, admin_cmd
+import io
+from userbot.utils import admin_cmd, progress
 
 async def progress(current, total, event, start, type_of_ps, file_name=None):
     """Generic progress_callback for uploads and downloads."""
@@ -84,7 +86,8 @@ def time_formatter(milliseconds: int) -> str:
         ((str(milliseconds) + " millisecond(s), ") if milliseconds else "")
     return tmp[:-2]
 
-@register(pattern=r".download(?: |$)(.*)", outgoing=True)
+#@register(pattern=r".download(?: |$)(.*)", outgoing=True)
+@borg.on(admin_cmd(pattern="download(?: |$)(.*)", outgoing=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -103,7 +106,7 @@ async def _(event):
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
                     progress(d, t, mone, c_time, "trying to download")
                 )
-            )
+            
         except Exception as e:  # pylint:disable=C0103,W0703
             await mone.edit(str(e))
         else:
@@ -151,7 +154,7 @@ async def _(event):
         else:
             await mone.edit("Incorrect URL\n {}".format(input_str))
     else:
-        await mone.edit("Reply to a message to download to my local server.")
+        await mone.edit("Reply to a message to download to my local server.")        
         
         
 @register(pattern=r".uploadir (.*)", outgoing=True)
@@ -233,7 +236,8 @@ async def uploadir(udir_event):
         await udir_event.edit("404: Directory Not Found")
 
 #@borg.on(admin_cmd(pattern="upload (.*)", allow_sudo=True)
-@register(pattern=r".upload (.*)", outgoing=True)
+#@register(pattern=r".upload (.*)", outgoing=True)
+@borg.on(admin_cmd(pattern="upload (.*)", outgoing=True))                
 async def _(event):
     if event.fwd_from:
         return
@@ -245,7 +249,7 @@ async def _(event):
     if os.path.exists(input_str):
         start = datetime.now()
         c_time = time.time()
-        await event.client.send_file(
+        await bot.send_file(
             event.chat_id,
             input_str,
             force_document=True,
@@ -264,6 +268,7 @@ async def _(event):
     else:
         await mone.edit("404: File Not Found")
 
+                
 def get_video_thumb(file, output=None, width=90):
     """ Get video thumbnail """
     metadata = extractMetadata(createParser(file))
