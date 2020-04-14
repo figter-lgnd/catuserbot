@@ -8,11 +8,16 @@ import re
 from userbot.utils import admin_cmd
 from telethon import *
 from userbot import *
+import asyncio
+import io
+import os
 
 @borg.on(admin_cmd(pattern="app (.*)", allow_sudo=True))
-async def apk(e):
-    try:
-        app_name = e.pattern_match.group(1)
+async def apk(event):
+  if event.fwd_from:
+        return
+  try:
+        app_name = event.pattern_match.group(1)
         remove_space = app_name.split(' ')
         final_name = '+'.join(remove_space)
         page = requests.get("https://play.google.com/store/search?q="+final_name+"&c=apps")
@@ -31,16 +36,16 @@ async def apk(e):
         app_details += "\n<code>Rating :</code> "+app_rating.replace("Rated ", "⭐ ").replace(" out of ", "/").replace(" stars", "", 1).replace(" stars", "⭐ ").replace("five", "5")
         app_details += "\n<code>Features :</code> <a href='"+app_link+"'>View in Play Store</a>"
         app_details += "\n\n===> @mrconfused <==="
-        await e.edit(app_details, link_preview = True, parse_mode = 'HTML')
+        await event.edit(app_details, link_preview = True, parse_mode = 'HTML')
     except IndexError:
-        await e.edit("No result found in search. Please enter **Valid app name**")
+        await event.edit("No result found in search. Please enter **Valid app name**")
     except Exception as err:
-        await e.edit("Exception Occured:- "+str(err))
+        await event.edit("Exception Occured:- "+str(err))
 
 @borg.on(admin_cmd(pattern="appr (.*)", allow_sudo=True))
-async def apkr(e):
+async def apkr(event):
     try:
-        app_name = e.pattern_match.group(1)
+        app_name = event.pattern_match.group(1)
         remove_space = app_name.split(' ')
         final_name = '+'.join(remove_space)
         page = requests.get("https://play.google.com/store/search?q="+final_name+"&c=apps")
@@ -60,8 +65,8 @@ async def apkr(e):
         app_details += "\n<code>Features :</code> <a href='"+app_link+"'>View in Play Store</a>"
         app_details += "\n\n<b>Download : </b> <a href='https://t.me/joinchat/JCu-H1NikiYDgNjpjPYd4A'>Request_Here</a>"
         app_details += "\n\n===> @mrconfused <==="
-        await e.edit(app_details, link_preview = True, parse_mode = 'HTML')
+        await event.edit(app_details, link_preview = True, parse_mode = 'HTML')
     except IndexError:
-        await e.edit("No result found in search. Please enter **Valid app name**")
+        await event.edit("No result found in search. Please enter **Valid app name**")
     except Exception as err:
-        await e.edit("Exception Occured:- "+str(err))
+        await event.edit("Exception Occured:- "+str(err))
