@@ -16,7 +16,8 @@ if not os.path.isdir("./SAVED"):
 if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
      os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
 
-@borg.on(events.NewMessage(pattern=r"\.lslocal", outgoing=True))
+#@borg.on(events.NewMessage(pattern=r"\.lslocal", outgoing=True))
+@borg.on(admin_cmd(pattern="lslocal", outgoing=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -57,7 +58,8 @@ async def _(event):
 
 
 
-@borg.on(events.NewMessage(pattern=r"\.lsroot", outgoing=True))
+#@borg.on(events.NewMessage(pattern=r"\.lsroot", outgoing=True))
+@borg.on(admin_cmd(pattern="lsroot", outgoing=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -91,7 +93,8 @@ async def _(event):
         return
     await event.edit(f"{OUTPUT}`{stdout.decode()}`")
 	
-@borg.on(events.NewMessage(pattern=r"\.lssaved", outgoing=True))
+#@borg.on(events.NewMessage(pattern=r"\.lssaved", outgoing=True))
+@borg.on(admin_cmd(pattern="lssaved", outgoing=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -126,7 +129,8 @@ async def _(event):
     await event.edit(f"{OUTPUT}`{stdout.decode()}`")
     
     
-@borg.on(events.NewMessage(pattern=r"\.rnsaved ?(.*)", outgoing=True))
+#@borg.on(events.NewMessage(pattern=r"\.rnsaved ?(.*)", outgoing=True))
+@borg.on(admin_cmd(pattern="rnsaved ?(.*)", outgoing=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -164,7 +168,8 @@ async def _(event):
         return
     await event.edit(f"File renamed `{src}` to `{dst}`")
 	
-@borg.on(events.NewMessage(pattern=r"\.rnlocal ?(.*)", outgoing=True))
+#@borg.on(events.NewMessage(pattern=r"\.rnlocal ?(.*)", outgoing=True))
+@borg.on(admin_cmd(pattern="rnlocal ?(.*)", outgoing=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -202,7 +207,8 @@ async def _(event):
         return
     await event.edit(f"File renamed `{src}` to `{dst}`")
         
-@borg.on(events.NewMessage(pattern=r"\.delsave (.*)", outgoing=True))
+#@borg.on(events.NewMessage(pattern=r"\.delsave (.*)", outgoing=True))
+@borg.on(admin_cmd(pattern="delsave (.*)", outgoing=True))
 async def handler(event):
     if event.fwd_from:
         return
@@ -217,12 +223,13 @@ async def handler(event):
     else:
          await event.edit("⛔️File Not Found. The goods are out of hand😬")
         
-@borg.on(events.NewMessage(pattern=r"\.delocal (.*)", outgoing=True))
+#@borg.on(events.NewMessage(pattern=r"\.delocal (.*)", outgoing=True))
+@borg.on(admin_cmd(pattern="delocal (.*)", outgoing=True))
 async def handler(event):
     if event.fwd_from:
         return
     input_str = event.pattern_match.group(1)
-    pathtofile = f"./ravana/{input_str}"
+    pathtofile = f"./DOWNLOADS/{input_str}"
 
 	
     if os.path.isfile(pathtofile):
