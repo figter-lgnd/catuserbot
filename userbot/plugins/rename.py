@@ -18,7 +18,7 @@ from telethon.tl.types import DocumentAttributeVideo
 from telethon.errors import MessageNotModifiedError
 import time
 from userbot.utils import admin_cmd
-from userbot.plugins.download_upload import progress, humanbytes, time_formatter
+from userbot.utils import progress, humanbytes, time_formatter
 import io
 import math
 import os
