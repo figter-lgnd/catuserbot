@@ -8,6 +8,7 @@ Audio and video downloader using Youtube-dl
 
 import os
 import time
+from html import unescape
 import math
 import asyncio
 from youtube_dl import YoutubeDL
