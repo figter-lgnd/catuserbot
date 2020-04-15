@@ -4,7 +4,6 @@
 # you may not use this file except in compliance with the License.
 #
 """ Userbot module containing various scrapers. """
-
 import os
 import time
 import asyncio
@@ -12,12 +11,15 @@ import shutil
 from bs4 import BeautifulSoup
 import re
 import emoji
+import random
 from time import sleep
 from html import unescape
 from re import findall
+from datetime import datetime
 from selenium import webdriver
 from urllib.parse import quote_plus
 from urllib.error import HTTPError
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
 from wikipedia import summary
@@ -25,21 +27,24 @@ from wikipedia.exceptions import DisambiguationError, PageError
 from urbandict import define
 from requests import get
 from search_engine_parser import GoogleSearch
+from google_images_download import google_images_download
 from googleapiclient.discovery import build
+from gtts.lang import tts_langs
 from googleapiclient.errors import HttpError
 from googletrans import LANGUAGES, Translator
 from gtts import gTTS
-from gtts.lang import tts_langs
+from emoji import get_emoji_regexp
 from userbot import CMD_HELP, BOTLOG, BOTLOG_CHATID, YOUTUBE_API_KEY, CHROME_DRIVER, GOOGLE_CHROME_BIN
-from userbot.events import register
+from userbot.utils import register
 from telethon.tl.types import DocumentAttributeAudio
+
 from userbot.utils import progress, humanbytes, time_formatter
 from userbot.uniborgConfig import Config
-#CARBONLANG = "auto"
 TTS_LANG = "en"
 TRT_LANG = "en"
-CARBONLANG = "en"
 
+CARBONLANG = "auto"
+LANG = "en"
 BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
 BOTLOG = True
 
