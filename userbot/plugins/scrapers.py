@@ -38,6 +38,7 @@ from userbot.uniborgConfig import Config
 #CARBONLANG = "auto"
 TTS_LANG = "en"
 TRT_LANG = "en"
+CARBONLANG = "en"
 
 BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
 BOTLOG = True
