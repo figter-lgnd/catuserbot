@@ -217,7 +217,7 @@ async def download_video(v_url):
 
 #@register(outgoing=True, pattern="^.yts (.*)")
 @borg.on(admin_cmd(pattern="yts (.*)"))
-                  async def yt_search(video_q):
+async def yt_search(video_q):
     """ For .yt command, do a YouTube search from Telegram. """
     query = video_q.pattern_match.group(1)
     result = ''
