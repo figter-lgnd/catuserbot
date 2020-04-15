@@ -49,7 +49,7 @@ class Config(object):
     TG_BOT_TOKEN_BF_HER = os.environ.get("TG_BOT_TOKEN_BF_HER", None)
     TG_BOT_USER_NAME_BF_HER = os.environ.get("TG_BOT_USER_NAME_BF_HER", None)
     #
-    NO_LOG_P_M_S = bool(os.environ.get("NO_LOG_P_M_S", False))
+    NO_LOG_P_M_S = bool(os.environ.get("NO_LOG_P_M_S", True))
     #
     # DO NOT EDIT BELOW THIS LINE IF YOU DO NOT KNOW WHAT YOU ARE DOING
     # TG API limit. A message can have maximum 4096 characters!
