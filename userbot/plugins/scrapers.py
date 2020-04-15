@@ -236,7 +236,7 @@ async def translateme(trans):
         return
 
     try:
-        reply_text = translator.translate(demojize(message), dest=TRT_LANG)
+        reply_text = translator.translate(emoji.demojize(message), dest=TRT_LANG)
     except ValueError:
         await trans.edit("Invalid destination language.")
         return
