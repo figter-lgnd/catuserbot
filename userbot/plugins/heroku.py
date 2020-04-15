@@ -14,7 +14,7 @@ heroku_api = "https://api.heroku.com"
 HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 HEROKU_API_KEY = Config.HEROKU_API_KEY
 
-@borg.on(admin_cmd(pattern=r"(set|get|del) var ?(.*)", allow_sudo=True))
+@borg.on(admin_cmd(pattern=r"(set|get|del) var ?(.*)", outgoing=True))
 async def variable(var):
     if HEROKU_APP_NAME is not None:
         app = Heroku.app(HEROKU_APP_NAME)
@@ -82,7 +82,7 @@ async def variable(var):
             return await var.reply(f"**{variable}**  `is not exists`")
 
 
-@borg.on(admin_cmd(pattern="usage ?(.*)", allow_sudo=True))
+@borg.on(admin_cmd(pattern="usage ?(.*)", outgoing=True))
 async def _(event):
     await event.edit("`Processing...`")
     useragent = ('Mozilla/5.0 (Linux; Android 10; SM-G975F) '
