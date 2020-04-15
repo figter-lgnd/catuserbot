@@ -153,8 +153,6 @@ class Config(object):
     # MONGOCLIENT = pymongo.MongoClient(MONGO_DB_URI)
     # MONGO = MONGOCLIENT.userbot
     KUTT_IT_API_KEY = os.environ.get("KUTT_IT_API_KEY", None)
-    #lyrics plugin
-    GENIUS = os.environ.get("GENIUS_API_TOKEN", 'None')
     watermark_path = os.environ.get("watermark_path", None)
     # RSS_POST_MSG_GROUP_ID = map(int, os.environ.get("RSS_POST_MSG_GROUP_ID", None).split())
     RSS_POST_MSG_GROUP_ID = os.environ.get("RSS_POST_MSG_GROUP_ID", None)
