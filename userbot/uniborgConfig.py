@@ -111,7 +111,10 @@ class Config(object):
    # os.makedirs(TMP_DOWNLOAD_DIRECTORY, exist_ok=True)
    # t_file = open(TMP_DOWNLOAD_DIRECTORY+"auth_token.txt","w")
 
-
+    
+    HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
+    #
+    HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
     #
     TELE_GRAM_2FA_CODE = os.environ.get("TELE_GRAM_2FA_CODE", None)
     #
