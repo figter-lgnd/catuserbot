@@ -1,7 +1,7 @@
 """
 Torrent Search Plugin for Userbot. //torrentdownloads.me
 cmd: .search search_string
-Note: Number of results are currently limited to 11
+Note: Number of results are currently limited to 15
 By:-@Zero_cool7870
 
 """
@@ -62,7 +62,7 @@ async def tor_search(event):
 			pass
 		except AttributeError:
 			pass	
-		if counter == 20:
+		if counter == 15:
 			break		
 		counter = counter + 1
 	if not urls:
