@@ -10,7 +10,8 @@ import requests
 from userbot.utils import admin_cmd
 import asyncio
 import json
-
+from bs4 import BeautifulSoup 
+from telethon import events
 
 
 def dogbin(magnets):
@@ -25,7 +26,7 @@ def dogbin(magnets):
 		counter = counter + 1
 	return urls	
 	
-@borg.on(admin_cmd(pattern="tsearch ?(.*)", allow_sudo=True))
+@borg.on(admin_cmd(pattern="tsearch ?(.*)"))
 async def tor_search(event):
 	if event.fwd_from:
 		return 
@@ -92,6 +93,4 @@ async def tor_search(event):
 	while counter != len(titles):
 		msg = msg + "⁍ [{}]".format(titles[counter])+"({})".format(shorted_links[counter])+"\n\n"
 		counter = counter + 1
-
-
 	await event.edit(msg,link_preview=False)
