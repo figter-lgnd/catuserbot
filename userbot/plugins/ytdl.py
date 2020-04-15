@@ -218,13 +218,13 @@ async def download_video(v_url):
 #@register(outgoing=True, pattern="^.yts (.*)")
 @borg.on(admin_cmd(pattern="yts (.*)"))
 async def yt_search(video_q):
-    """ For .yt command, do a YouTube search from Telegram. """
+    """ For .yts command, do a YouTube search from Telegram. """
     query = video_q.pattern_match.group(1)
     result = ''
 
     if not Config.YOUTUBE_API_KEY:
         await video_q.edit(
-            "`Error: YouTube API key missing! Add it to environment vars or config.env.`"
+            "`Error: YouTube API key missing! Add it to reveal config vars in heroku or userbot/uniborgConfig.py in github fork.`"
         )
         return
 
@@ -251,7 +251,7 @@ async def youtube_search(query,
     """ Do a YouTube search. """
     youtube = build('youtube',
                     'v3',
-                    developerKey=YOUTUBE_API_KEY,
+                    developerKey=Config.YOUTUBE_API_KEY,
                     cache_discovery=False)
     search_response = youtube.search().list(
         q=query,
