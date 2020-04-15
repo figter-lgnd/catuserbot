@@ -62,7 +62,7 @@ async def tor_search(event):
 			pass
 		except AttributeError:
 			pass	
-		if counter == 11:
+		if counter == 20:
 			break		
 		counter = counter + 1
 	if not urls:
