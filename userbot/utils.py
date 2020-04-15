@@ -354,6 +354,19 @@ class Loader():
         self.Var = Var
         bot.add_event_handler(func, events.NewMessage(**args))
 
+        
+
+# https://github.com/andy-gh/prettyjson/blob/master/prettyjson.py
+
+
+def prettyjson(obj, indent=2, maxlinelength=80):
+    """Renders JSON content with indentation and line splits/concatenations to fit maxlinelength.
+    Only dicts, lists and basic types are supported"""
+
+    items, _ = getsubitems(obj, itemkey="", islast=True, maxlinelength=maxlinelength - indent, indent=indent)
+    return indentitems(items, indent, level=0)
+
+
 def parse_arguments(message: str, valid: List[str]) -> (dict, str):
     options = {}
 
