@@ -14,12 +14,12 @@ async def get_target_message(borg, event):
     if event.is_reply and target.from_id == borg.uid:
         return target
     if not target:
-        return await util.get_recent_self_message(borg, event)
+        return await utils.get_recent_self_message(borg, event)
 
 
 def self_reply_cmd(borg, pattern):
     def wrapper(function):
-        @borg.on(util.admin_cmd(pattern))
+        @borg.on(utils.admin_cmd(pattern))
         async def wrapped(event, *args, **kwargs):
             await event.delete()
             target = await get_target_message(borg, event)
@@ -32,7 +32,7 @@ def self_reply_cmd(borg, pattern):
 
 def self_reply_selector(borg, cmd):
     def wrapper(function):
-        @borg.on(util.admin_cmd(cmd + r"( [+-]?\d+)?$"))
+        @borg.on(utils.admin_cmd(cmd + r"( [+-]?\d+)?$"))
         async def wrapped(event, *args, **kwargs):
             await event.delete()
             reply = await event.get_reply_message()
