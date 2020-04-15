@@ -87,6 +87,7 @@ search-engine-parser
 selenium
 setuptools>=40.3.0
 spamwatch
+spcli
 speedtest-cli
 spotify_token
 sqlalchemy
