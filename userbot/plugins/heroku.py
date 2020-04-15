@@ -9,10 +9,11 @@ import math
 from userbot.utils import admin_cmd, prettyjson
 from userbot.uniborgConfig import Config
 # ================= 
-Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
+
 heroku_api = "https://api.heroku.com"
 HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 HEROKU_API_KEY = Config.HEROKU_API_KEY
+Heroku = heroku3.from_key(HEROKU_API_KEY)
 
 @borg.on(admin_cmd(pattern=r"(set|get|del) var ?(.*)", outgoing=True))
 async def variable(var):
