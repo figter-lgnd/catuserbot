@@ -222,7 +222,7 @@ async def yt_search(video_q):
     query = video_q.pattern_match.group(1)
     result = ''
 
-    if not YOUTUBE_API_KEY:
+    if not Config.YOUTUBE_API_KEY:
         await video_q.edit(
             "`Error: YouTube API key missing! Add it to environment vars or config.env.`"
         )
