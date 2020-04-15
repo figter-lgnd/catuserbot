@@ -11,6 +11,7 @@ import asyncio
 import shutil
 from bs4 import BeautifulSoup
 import re
+import emoji
 from time import sleep
 from html import unescape
 from re import findall
@@ -24,25 +25,17 @@ from wikipedia.exceptions import DisambiguationError, PageError
 from urbandict import define
 from requests import get
 from search_engine_parser import GoogleSearch
-from google_images_download import google_images_download
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googletrans import LANGUAGES, Translator
 from gtts import gTTS
 from gtts.lang import tts_langs
-from emoji import get_emoji_regexp
-from youtube_dl import YoutubeDL
-from youtube_dl.utils import (DownloadError, ContentTooShortError,
-                              ExtractorError, GeoRestrictedError,
-                              MaxDownloadsReached, PostProcessingError,
-                              UnavailableVideoError, XAttrMetadataError)
-from asyncio import sleep
 from userbot import CMD_HELP, BOTLOG, BOTLOG_CHATID, YOUTUBE_API_KEY, CHROME_DRIVER, GOOGLE_CHROME_BIN
 from userbot.events import register
 from telethon.tl.types import DocumentAttributeAudio
 from userbot.utils import progress, humanbytes, time_formatter
 from userbot.uniborgConfig import Config
-CARBONLANG = "auto"
+#CARBONLANG = "auto"
 TTS_LANG = "en"
 TRT_LANG = "en"
 
@@ -243,7 +236,7 @@ async def translateme(trans):
         return
 
     try:
-        reply_text = translator.translate(deEmojify(message), dest=TRT_LANG)
+        reply_text = translator.translate(demojize(message), dest=TRT_LANG)
     except ValueError:
         await trans.edit("Invalid destination language.")
         return
@@ -294,67 +287,5 @@ async def lang(value):
             BOTLOG_CHATID,
             f"`Language for {scraper} changed to {LANG.title()}.`")
 
-
-@register(outgoing=True, pattern="^.yts (.*)")
-async def yt_search(video_q):
-    """ For .yt command, do a YouTube search from Telegram. """
-    query = video_q.pattern_match.group(1)
-    result = ''
-
-    if not YOUTUBE_API_KEY:
-        await video_q.edit(
-            "`Error: YouTube API key missing! Add it to environment vars or config.env.`"
-        )
-        return
-
-    await video_q.edit("```Processing...```")
-
-    full_response = await youtube_search(query)
-    videos_json = full_response[1]
-
-    for video in videos_json:
-        title = f"{unescape(video['snippet']['title'])}"
-        link = f"https://youtu.be/{video['id']['videoId']}"
-        result += f"{title}\n{link}\n\n"
-
-    reply_text = f"**Search Query:**\n`{query}`\n\n**Results:**\n\n{result}"
-
-    await video_q.edit(reply_text)
-
-
-async def youtube_search(query,
-                         order="relevance",
-                         token=None,
-                         location=None,
-                         location_radius=None):
-    """ Do a YouTube search. """
-    youtube = build('youtube',
-                    'v3',
-                    developerKey=YOUTUBE_API_KEY,
-                    cache_discovery=False)
-    search_response = youtube.search().list(
-        q=query,
-        type="video",
-        pageToken=token,
-        order=order,
-        part="id,snippet",
-        maxResults=10,
-        location=location,
-        locationRadius=location_radius).execute()
-
-    videos = []
-
-    for search_result in search_response.get("items", []):
-        if search_result["id"]["kind"] == "youtube#video":
-            videos.append(search_result)
-    try:
-        nexttok = search_response["nextPageToken"]
-        return (nexttok, videos)
-    except HttpError:
-        nexttok = "last_page"
-        return (nexttok, videos)
-    except KeyError:
-        nexttok = "KeyError, try again."
-        return (nexttok, videos)
 
 
