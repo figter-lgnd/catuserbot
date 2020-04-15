@@ -25,7 +25,7 @@ async def _(event):
             lyric_message = f"Singing {song[0].strip()} from {song[1].strip()} 🎙"
             lyric_message += "\n\n" + "\n".join(lyrics)
             try:
-                await event.edit(lyric_message)
+                await event.edit(`lyric_message`)
             except:
                 # TODO: send as file
                 logger.info(lyric_message)
