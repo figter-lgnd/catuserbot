@@ -18,7 +18,7 @@ async def _(event):
     try:
         song = input_str.split("-")
         if len(song) == 1:
-            await event.edit("Usage: .singer Duman - Haberin Yok Ölüyorum")
+            await event.edit("Usage: `.singer Duman - Haberin Yok Ölüyorum`")
         else:
             await event.edit("🔍︎Searching lyrics")
             lyrics = PyLyrics.getLyrics(song[0].strip(), song[1].strip()).split("\n")
