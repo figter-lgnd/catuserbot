@@ -10,7 +10,7 @@ from telethon.tl.functions.messages import SendMediaRequest
 
 @borg.on(utils.admin_cmd(pattern=r"ftoimg"))
 async def on_file_to_photo(event):
-    await event.delete()
+    await event.edit(processing.....)
     target = await event.get_reply_message()
     try:
         image = target.media.document
