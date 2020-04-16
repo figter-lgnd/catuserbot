@@ -7,7 +7,7 @@ from telethon.tl.functions.messages import EditMessageRequest
 from userbot.plugins.kbass_core import self_reply_cmd
 
 
-@self_reply_cmd(borg, r"^\.preview$")
+@self_reply_cmd(borg, pattern=r"preview")
 async def on_edit_preview(event, target):
     try:
         await borg(EditMessageRequest(
