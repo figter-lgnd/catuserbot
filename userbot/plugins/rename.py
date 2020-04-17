@@ -59,7 +59,10 @@ async def _(event):
         downloaded_file_name = os.path.join(to_download_directory, file_name)
         downloaded_file_name = await borg.download_media(
             reply_message,
-            downloaded_file_name
+            downloaded_file_name,
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                 progress(d, t, mone, c_time, "trying to download")
+            )
         )
         end = datetime.now()
         ms = (end - start).seconds
@@ -91,6 +94,9 @@ async def _(event):
         downloaded_file_name = await borg.download_media(
             reply_message,
             downloaded_file_name,
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                  progress(d, t, mone, c_time, "trying to download")
+            )
          
         )
         end = datetime.now()
@@ -105,6 +111,9 @@ async def _(event):
                 allow_cache=False,
                 reply_to=event.message.id,
                 thumb=thumb,
+                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                    progress(d, t, mone, c_time, "trying to download")
+                )
                 
             )
             end_two = datetime.now()
@@ -134,7 +143,10 @@ async def _(event):
         downloaded_file_name = os.path.join(to_download_directory, file_name)
         downloaded_file_name = await borg.download_media(
             reply_message,
-            downloaded_file_name
+            downloaded_file_name,
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                  progress(d, t, mone, c_time, "trying to download")
+            )
         )
         end_one = datetime.now()
         ms_one = (end_one - start).seconds
